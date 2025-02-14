@@ -1,17 +1,10 @@
-# Speck Cipher - Wolfram Mathematica
+# Wolfram Mathematica Projects
 
-This project provides an implementation of the lightweight Speck Cipher encryption algorithm in Wolfram Mathematica.
+This repository contains two projects developed in Wolfram Mathematica:
 
-## Features
-- Encryption and decryption
-- Support for keys of different lengths
+## 1. Speck Cipher
+Implementation of the lightweight Speck Cipher encryption algorithm.
 
-## Requirements
-- Wolfram Mathematica
-
-## Execution
-Open the file `speck_cipher.nb` in Wolfram Mathematica and execute the cells.
-
-## License
-MIT License
+## 2. Bitcoin Address
+Bitcoin address generation using Wolfram Mathematica.
 
