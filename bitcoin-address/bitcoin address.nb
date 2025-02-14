@@ -1,0 +1,299 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12413,        291]
+NotebookOptionsPosition[     11835,        273]
+NotebookOutlinePosition[     12239,        289]
+CellTagsIndexPosition[     12196,        286]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{"notebookPath", "=", 
+  "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\Master\\\\Crypto Case \
+Studies\\\\functions.nb\>\""}], "\[IndentingNewLine]", 
+ RowBox[{"NotebookEvaluate", "[", 
+  RowBox[{"notebookPath", ",", 
+   RowBox[{"InsertResults", "->", "True"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "notebookPath", "]"}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.902571701257657*^9, 3.9025717026077394`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"9a7aa9b4-858e-49a2-9ea2-89ad8275f661"],
+
+Cell[BoxData["\<\"C:\\\\Users\\\\User\\\\Desktop\\\\Master\\\\Crypto Case \
+Studies\\\\functions.nb\"\>"], "Output",
+ CellChangeTimes->{3.902633606017742*^9, 3.902633832202614*^9, 
+  3.902634224596303*^9},
+ CellLabel->"Out[1]=",ExpressionUUID->"90663ca7-0367-4415-9389-69c11ca7b203"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"\n", 
+  RowBox[{"(*", 
+   RowBox[{"secp256k1", " ", "elliptic", " ", "curve", " ", "parameters"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "ordG", "=", 
+     "16^^FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141"}],
+     ";"}], "\n", 
+   RowBox[{
+    RowBox[{"G", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "16^^79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798", 
+       ",", "16^^\
+483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8"}], "}"}]}], 
+    ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{"UncompressedPubKey", "[", "privateKey_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"publicKeyPoint", ",", "formattedPublicKey"}], "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Calculate", " ", "the", " ", "public", " ", "key", " ", "point"}], 
+       "*)"}], 
+      RowBox[{
+       RowBox[{"publicKeyPoint", "=", 
+        RowBox[{"ECCScalarMultiplication", "[", 
+         RowBox[{"privateKey", ",", "G"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Format", " ", "the", " ", "uncompressed", " ", "public", " ", 
+         "key"}], "*)"}], 
+       RowBox[{"formattedPublicKey", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{"\"\<04\>\"", ",", 
+          RowBox[{"IntegerString", "[", 
+           RowBox[{
+            RowBox[{"publicKeyPoint", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], ",", "16"}], "]"}], ",", 
+          RowBox[{"IntegerString", "[", 
+           RowBox[{
+            RowBox[{"publicKeyPoint", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", "16"}], "]"}]}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "formattedPublicKey", "]"}], ";"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CompressedPubKey", "[", "privateKey_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "publicKeyPoint", ",", "compressedPrefix", ",", "compressedPK"}], 
+       "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Calculate", " ", "the", " ", "public", " ", "key", " ", "point"}], 
+       "*)"}], 
+      RowBox[{
+       RowBox[{"publicKeyPoint", "=", 
+        RowBox[{"ECCScalarMultiplication", "[", 
+         RowBox[{"privateKey", ",", "G"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Determine", " ", "the", " ", "compressed", " ", "prefix"}], 
+        "*)"}], 
+       RowBox[{"compressedPrefix", "=", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"EvenQ", "[", 
+           RowBox[{"publicKeyPoint", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", "\"\<02\>\"", ",", 
+          "\"\<03\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Create", " ", "the", " ", "compressed", " ", "public", " ", "key"}], 
+        "*)"}], 
+       RowBox[{"compressedPK", "=", 
+        RowBox[{"compressedPrefix", "<>", 
+         RowBox[{"IntegerString", "[", 
+          RowBox[{
+           RowBox[{"publicKeyPoint", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", "16"}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "compressedPK", "]"}], ";"}]}], "]"}]}], "\n", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"RIPEMDSHA256", "[", "compressedPK_String", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "bytes", ",", "hashPublic", ",", "networkByte", ",", 
+        "hashWithNetworkByte"}], "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Convert", " ", "the", " ", "compressed", " ", "public", " ", "key", 
+        " ", "to", " ", "bytes"}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"bytes", "=", 
+        RowBox[{"readBytes", "[", "compressedPK", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Calculate", " ", "the", " ", "RIPEMD"}], "-", 
+         RowBox[{
+         "SHA256", " ", "hash", " ", "of", " ", "the", " ", "bytes"}]}], 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"hashPublic", "=", 
+        RowBox[{"Hash", "[", 
+         RowBox[{
+          RowBox[{"ByteArray", "[", "bytes", "]"}], ",", 
+          "\"\<RIPEMD160SHA256\>\"", ",", "\"\<HexString\>\""}], "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Define", " ", "the", " ", "network", " ", "byte", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"e", ".", "g", "."}], ",", 
+           RowBox[{
+           "\"\<00\>\"", " ", "for", " ", "Bitcoin", " ", "mainnet"}]}], 
+          ")"}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"networkByte", "=", "\"\<00\>\""}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Concatenate", " ", "the", " ", "network", " ", "byte", " ", "with", 
+         " ", "the", " ", "hashPublic"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"hashWithNetworkByte", "=", 
+        RowBox[{"networkByte", "<>", "hashPublic"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "hashWithNetworkByte", "]"}], ";"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CHECKSUM", "[", "compressedPK_String", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "hashWithNetworkByte", ",", "bytes2", ",", "hash2", ",", "bytes3", ",",
+         "hash3", ",", "checksum"}], "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Calculate", " ", "the", " ", "hash", " ", "with", " ", "network", " ",
+         "byte"}], "*)"}], 
+      RowBox[{
+       RowBox[{"hashWithNetworkByte", "=", 
+        RowBox[{"RIPEMDSHA256", "[", "compressedPK", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Convert", " ", "hashWithNetworkByte", " ", "to", " ", "bytes"}], 
+        "*)"}], 
+       RowBox[{"bytes2", "=", 
+        RowBox[{"readBytes", "[", "hashWithNetworkByte", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Calculate", " ", "the", " ", "first", " ", "SHA"}], "-", 
+         RowBox[{"256", " ", "hash"}]}], "*)"}], 
+       RowBox[{"hash2", "=", 
+        RowBox[{"Hash", "[", 
+         RowBox[{
+          RowBox[{"ByteArray", "[", "bytes2", "]"}], ",", "\"\<SHA256\>\"", 
+          ",", "\"\<HexString\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Convert", " ", "hash2", " ", "to", " ", "bytes"}], "*)"}], 
+       RowBox[{"bytes3", "=", 
+        RowBox[{"readBytes", "[", "hash2", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Calculate", " ", "the", " ", "second", " ", "SHA"}], "-", 
+         RowBox[{"256", " ", "hash"}]}], "*)"}], 
+       RowBox[{"hash3", "=", 
+        RowBox[{"Hash", "[", 
+         RowBox[{
+          RowBox[{"ByteArray", "[", "bytes3", "]"}], ",", "\"\<SHA256\>\"", 
+          ",", "\"\<HexString\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Extract", " ", "the", " ", "first", " ", "8", " ", "characters", " ", 
+         RowBox[{"(", 
+          RowBox[{"4", " ", "bytes"}], ")"}], " ", "from", " ", "hash3", " ", 
+         "as", " ", "the", " ", "checksum"}], "*)"}], 
+       RowBox[{"checksum", "=", 
+        RowBox[{"StringTake", "[", 
+         RowBox[{"hash3", ",", "8"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "checksum", "]"}], ";"}]}], "]"}]}], "\n", 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.9025717231305895`*^9, 3.902571740045542*^9}, {
+   3.9025718324880037`*^9, 3.9025718839191246`*^9}, 3.9025719683037925`*^9, {
+   3.9025720032021956`*^9, 3.9025720060449295`*^9}, {3.9025720998585014`*^9, 
+   3.90257210004659*^9}, {3.902572187124426*^9, 3.902572209835647*^9}, {
+   3.9025727483064127`*^9, 3.9025727484341373`*^9}, {3.9025728473516917`*^9, 
+   3.9025728501115346`*^9}, {3.9025730576109743`*^9, 3.902573058727789*^9}, {
+   3.9025731049904585`*^9, 3.90257311817511*^9}, {3.902573217570033*^9, 
+   3.90257322123075*^9}, {3.9025732640966396`*^9, 3.902573274875349*^9}, {
+   3.9025734066897264`*^9, 3.902573424960884*^9}, {3.9025741216853065`*^9, 
+   3.902574123586193*^9}, {3.9025745949901323`*^9, 3.9025746048913493`*^9}, {
+   3.902575623544629*^9, 3.90257567023449*^9}, 3.9025764544635878`*^9, {
+   3.902576500916848*^9, 3.90257650480519*^9}, 3.902576545989278*^9, {
+   3.902576597143811*^9, 3.9025766009139624`*^9}, {3.902576866794217*^9, 
+   3.902576870510518*^9}, {3.902577686265482*^9, 3.9025776922214003`*^9}, 
+   3.9025777825713096`*^9, 3.902578028228459*^9, {3.902578183025812*^9, 
+   3.902578203589072*^9}, {3.902578238532872*^9, 3.902578238862995*^9}, {
+   3.902578295493693*^9, 3.902578299814864*^9}, {3.902578338406942*^9, 
+   3.9025784001773586`*^9}, {3.9025784842076554`*^9, 3.902578484647731*^9}, {
+   3.9025877372252884`*^9, 3.902587737890046*^9}, {3.9025881096068125`*^9, 
+   3.9025881106013947`*^9}, {3.9025882484961843`*^9, 3.902588249226922*^9}, {
+   3.9025908879840117`*^9, 3.90259091962119*^9}, {3.9025910603742676`*^9, 
+   3.9025911087277436`*^9}, {3.902591160751182*^9, 3.90259121027782*^9}, 
+   3.9026291632578816`*^9, {3.9026292775685673`*^9, 3.9026292968060246`*^9}, 
+   3.9026293465358458`*^9, 3.9026293890322895`*^9, {3.902632822263421*^9, 
+   3.9026328677534156`*^9}, {3.902632921431402*^9, 3.9026329603813105`*^9}, {
+   3.9026330095162396`*^9, 3.902633018280608*^9}, {3.902633083476091*^9, 
+   3.902633094190947*^9}, {3.9026331380691977`*^9, 3.9026332253679667`*^9}, {
+   3.902633332324459*^9, 3.902633384721421*^9}, {3.9026334690904455`*^9, 
+   3.9026335052823744`*^9}, 3.902633535936619*^9, {3.9026335677940664`*^9, 
+   3.902633584855445*^9}, {3.9026337477501216`*^9, 3.902633777903843*^9}, {
+   3.9026338841235046`*^9, 3.902633959311816*^9}},
+ CellLabel->"In[73]:=",ExpressionUUID->"1610f428-d34d-4b53-b8b3-f21c67f8e668"]
+},
+WindowSize->{1428., 729.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"a7473916-b7eb-44c3-bb58-e844ee73faf2"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 555, 11, 86, "Input",ExpressionUUID->"9a7aa9b4-858e-49a2-9ea2-89ad8275f661"],
+Cell[1138, 35, 283, 4, 32, "Output",ExpressionUUID->"90663ca7-0367-4415-9389-69c11ca7b203"]
+}, Open  ]],
+Cell[1436, 42, 10395, 229, 885, "Input",ExpressionUUID->"1610f428-d34d-4b53-b8b3-f21c67f8e668"]
+}
+]
+*)
+
